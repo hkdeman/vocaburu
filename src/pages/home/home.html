@@ -1,14 +1,32 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar> 
     <ion-title>
-      Ionic Blank
+      Vocab Quiz Time!
     </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+<ion-content padding >
+
+  <div *ngIf="!done">
+    <h4 style ="margin-top:25%;" text-center> Do you know the meaning of <br><h2><strong>{{chosenWord}} ?</strong></h2></h4>
+    <button ion-button *ngFor="let guess of guesses" class="full" outline text-wrap (click)="checkAnswer(guess.i);">{{guess.meaning}}</button>
+  
+    <div style="position:fixed;width:100%;bottom:0;left:2%;right:2%;">       
+      <ion-icon name="checkbox-outline" style="font-size:3em;width:9.6%;" *ngFor="let checkbox of checkboxes" id="{{checkbox}}"></ion-icon>                  
+    </div>
+  </div>
+  <div *ngIf="done" style="margin-top:5%;">
+    <h3 text-center><strong>Score (latest):</strong> <span style="color:darkcyan;">{{score/10 *100}}%</span></h3>
+    <button ion-button class="full" outline text-wrap (click)="initSetup()" text-center>Reset Quiz</button>
+
+    <br>
+    <br>
+    <div style="margin-top:5%">
+      <ion-item *ngFor="let answer of unCorrectAnswers">
+        <strong>{{answer.word}}</strong> : {{answer.meaning}} <br><br>
+      </ion-item>
+    </div>
+  </div>
+
 </ion-content>

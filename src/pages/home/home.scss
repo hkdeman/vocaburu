@@ -1,3 +1,26 @@
 page-home {
+    .turquoise
+    {
+        background-color: #00E5EE;
+    }
+    .full
+    {
+        width:100%;
+    }
 
+    .alertCustom
+    {
+        background-color: #00E5EE;
+        text-align: center;
+        
+    }
+
+    #correct
+    {
+        color:green;
+    }
+    #incorrect
+    {
+        color:red;
+    }
 }
