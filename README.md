@@ -1,6 +1,6 @@
-##Vocabulary building app
+## Vocabulary building app
   - for students working for GRE
   - need consistency
-#Focuses:
+# Focuses:
   - on consistently improving the vocabulary
   - feedback to improve upon the errors
