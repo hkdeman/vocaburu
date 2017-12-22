@@ -4,6 +4,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { SamplePage } from '../sample/sample';
 import { DictPage } from '../dict/dict';
 
+
+
 /**
  * Generated class for the MenuPage page.
  *

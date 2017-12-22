@@ -3,7 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { Http } from "@angular/http";
 import 'rxjs/add/operator/map';
 import { AlertController } from 'ionic-angular';
-import { SamplePage } from '../sample/sample';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'page-home',
@@ -22,22 +22,34 @@ export class HomePage {
   unchangedGlobalData : any;
   score : any;
   done: any;
-  unCorrectAnswers:any;
+  inCorrectAnswers:any;
 
-  constructor(public navCtrl: NavController,public navParams : NavParams, public http:Http, public alertCtrl: AlertController) {
-    this.initSetup();
+  constructor(private storage: Storage, public navCtrl: NavController,public navParams : NavParams, public http:Http, public alertCtrl: AlertController) {
+    this.sampleLink = this.navParams.get('link');    
+    this.storage.get(this.sampleLink).then((val)=>{
+      if(val!=null)
+      {
+        this.done = val.latest.done;
+        this.inCorrectAnswers = val.latest.inCorrectAnswers;  
+        this.score = val.latest.score;
+      }
+      });
+      this.sampleLink = this.sampleLink*10;
+    if(!this.done)
+    {
+      this.initSetup();    
+    }
   }
    
   initSetup()
   {
-    this.unCorrectAnswers = [];
+    this.inCorrectAnswers = [];
     this.checkboxes = ['c-box-1','c-box-2','c-box-3','c-box-4','c-box-5','c-box-6','c-box-7','c-box-8','c-box-9','c-box-10'];
     this.guesses = [];
     this.words = [];
     this.currentWord = 1;
     this.score = 0 ;
     this.done= false;
-     this.sampleLink = this.navParams.get('link')*10;
     this.http.get("./assets/gre_words.json").map(res => res.json()).subscribe(data=>{
       this.globalData = data.slice(this.sampleLink-10,this.sampleLink);
       this.unchangedGlobalData = data.slice(this.sampleLink-10,this.sampleLink);
@@ -110,12 +122,11 @@ export class HomePage {
     {
       this.presentWrong(this.chosenWord,this.guesses[this.correct].meaning);
       //make the checkbox green
-      this.unCorrectAnswers.push({"word":this.chosenWord,"meaning":this.guesses[this.correct].meaning})
+      this.inCorrectAnswers.push({"word":this.chosenWord,"meaning":this.guesses[this.correct].meaning})
       this.globalData.splice(this.keyToDelete,1);
       this.checkboxes[this.currentWord-1] = "incorrect";
     }
     this.currentWord+=1;
-    console.log(this.globalData.length);
     if(this.globalData.length!=0)
     {
       this.randomWord();  
@@ -124,6 +135,8 @@ export class HomePage {
     {
       this.presentScore();
       this.done= true;
+      this.sampleLink = this.sampleLink/10;
+      this.storage.set(this.sampleLink,{"latest":{"done":true,"inCorrectAnswers":this.inCorrectAnswers,"score":this.score}});
     }
   }
 
@@ -164,7 +177,7 @@ export class HomePage {
       ,{
         text: "Other Quizes",
         handler: ()=>{
-          this.navCtrl.push(SamplePage);
+          this.navCtrl.pop();
         }
       }
       ]

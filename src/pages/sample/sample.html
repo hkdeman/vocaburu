@@ -16,8 +16,7 @@
 
 
 <ion-content padding>
-
-  <button ion-button *ngFor="let sample of samples" outline round style="margin-left:10%;width:80%;" (click)="navigateToHomePage(sample.link)">
-    {{sample.title}}
+  <button ion-button *ngFor="let sample of samples" outline round style="margin-left:10%;width:80%;" (click)="navigateToHomePage(sample.link)" id="{{sample.score}}" [disabled]="!sample.access">
+    {{sample.title}} <span *ngIf="!sample.access"> (locked)</span>
   </button>
 </ion-content>

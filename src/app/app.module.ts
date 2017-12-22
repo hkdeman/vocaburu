@@ -11,6 +11,8 @@ import { MenuPage } from '../pages/menu/menu';
 import { DictPage } from '../pages/dict/dict';
 import { SamplePage } from '../pages/sample/sample';
 
+import { IonicStorageModule } from '@ionic/storage';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -23,6 +25,7 @@ import { SamplePage } from '../pages/sample/sample';
     BrowserModule,
     HttpModule,
     IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
